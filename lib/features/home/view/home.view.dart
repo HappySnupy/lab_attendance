@@ -3,28 +3,100 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:lab_attendance/app/app.constants.dart';
+import 'package:lab_attendance/features/home/view/home.attendancewidget.dart';
+import 'package:lab_attendance/features/user/view/user.view.dart';
+import 'package:lab_attendance/features/user/user.controller.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '312_attendance',
-          style: TextStyle(
-              fontFamily: 'Courier',
-              fontSize: 35.sp,
-              color: colTitle,
-              fontWeight: FontWeight.w800
+    final userController = Get.put(UserController());
+
+    return Obx(() => Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(150.h),
+        child: AppBar(
+          surfaceTintColor: Colors.transparent,
+          title: null,
+          centerTitle: true,
+          flexibleSpace: SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50.h),
+                child: Text(
+                  '312_attendance',
+                  style: TextStyle(
+                    fontFamily: 'Courier',
+                    fontSize: 40.sp,
+                    color: colTitle,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
-        centerTitle: true,
       ),
       body: SafeArea(
-        child: Placeholder(),
-      )
-    );
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20.h,),
+                AttendanceStatus(name: userController.name.value, statusText: '출석'),
+                SizedBox(height: 130.h,),
+                Container(
+                  padding: EdgeInsets.only(top: 10.h),
+                  width: 275.w,
+                  height: 360.h,
+                  decoration: BoxDecoration(
+                    color: colBigRadiusRec,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        AttendanceStatus(name: '허강민', statusText: '결석'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '밥'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '잠시'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '밥'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '출석'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '밥'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '결석'),
+                        SizedBox(height: 10.h,),
+                        AttendanceStatus(name: '허강민', statusText: '밥'),
+                        SizedBox(height: 10.h,),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 20.h,
+              right: 20.w,
+              child: IconButton(
+                onPressed: () {
+                  Get.to(() => const UserView());
+                },
+                icon: Icon(Icons.settings),
+                iconSize: 30.sp,
+                color: Colors.grey.shade800,
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }

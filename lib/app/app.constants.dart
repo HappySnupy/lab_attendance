@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 final colBackground = Color(0xffd9d9d9);
+final colRadiusRec = Color(0xffaaaaaa);
+final colBigRadiusRec = Color(0xffaaaaaa).withAlpha(90);
 final colTitle = Color(0xff484848);
 final colStateText = Color(0xffffffff);
 final colAttendance = Color(0xff9ff372);
