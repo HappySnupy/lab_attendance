@@ -13,6 +13,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userController = Get.put(UserController());
+    final users = userController.userList;
 
     return Obx(() => Scaffold(
       appBar: PreferredSize(
@@ -47,7 +48,7 @@ class HomeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 20.h,),
-                AttendanceStatus(name: userController.name.value, statusText: '출석'),
+                AttendanceStatus(name: userController.name.value),
                 SizedBox(height: 130.h,),
                 Container(
                   padding: EdgeInsets.only(top: 10.h),
@@ -59,24 +60,12 @@ class HomeView extends StatelessWidget {
                   ),
                   child: SingleChildScrollView(
                     child: Column(
-                      children: [
-                        AttendanceStatus(name: '허강민', statusText: '결석'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '밥'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '잠시'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '밥'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '출석'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '밥'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '결석'),
-                        SizedBox(height: 10.h,),
-                        AttendanceStatus(name: '허강민', statusText: '밥'),
-                        SizedBox(height: 10.h,),
-                      ],
+                      children: users.map((user) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 10.h),
+                          child: AttendanceStatusOthers(name: user.name, status: user.currentStatus,),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),

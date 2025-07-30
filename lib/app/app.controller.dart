@@ -9,3 +9,4 @@ class AppBinding implements Bindings {
     ///TODO: controller implement
   }
 }
+

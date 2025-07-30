@@ -51,7 +51,7 @@ class UserView extends StatelessWidget {
                             'name: ${userController.name.value}',
                             style: TextStyle(
                               fontFamily: 'Courier',
-                              fontSize: 23.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                               color: colTitle,
                             ),
@@ -69,7 +69,7 @@ class UserView extends StatelessWidget {
                             'student_id: ${userController.studentId.value}',
                             style: TextStyle(
                               fontFamily: 'Courier',
-                              fontSize: 23.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                               color: colTitle,
                             ),

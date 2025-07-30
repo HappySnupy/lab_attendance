@@ -7,12 +7,10 @@ import 'package:lab_attendance/features/user/user.controller.dart';
 
 class AttendanceStatus extends StatelessWidget {
   final String name;
-  final String statusText;
 
   const AttendanceStatus({
     super.key,
     required this.name,
-    required this.statusText,
   });
 
   Color getStatusColor(String status) {
@@ -32,7 +30,7 @@ class AttendanceStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color statusColor = getStatusColor(statusText);
+    final userController = Get.find<UserController>();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -47,27 +45,57 @@ class AttendanceStatus extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-        ElevatedButton(
-          onPressed: () {
+        GestureDetector(
+          onTap: () {
             showModalBottomSheet(
               context: context,
-              isScrollControlled: true,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
-              builder: (context) {
-                return StatusSelector();
-              }
+              builder: (_) => StatusSelector(),
             );
           },
-          child: Text('출근'),
-        )
+          child: Obx(() => Container(
+            width: 100.w,
+            height: 45.h,
+            decoration: BoxDecoration(
+              color: colRadiusRec,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  userController.currentStatus.value,
+                  style: TextStyle(
+                    fontFamily: 'Courier',
+                    fontSize: 20.sp,
+                    color: colStateText,
+                    fontWeight: FontWeight.w200,
+                  ),
+                ),
+                SizedBox(width: 10.sp,),
+                Container(
+                  width: 16.sp,
+                  height: 16.sp,
+                  decoration: BoxDecoration(
+                    color: getStatusColor(userController.currentStatus.value),
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                )
+              ],
+            ),
+          ),),)
       ],
     );
   }
 }
 
 class StatusSelector extends StatelessWidget {
+  StatusSelector({Key? key}) : super(key: key);
+
   final List<Map<String, dynamic>> statuses = [
     {'label': '출근', 'color': colAttendance},
     {'label': '잠시', 'color': colFAM},
@@ -97,6 +125,86 @@ class StatusSelector extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class AttendanceStatusOthers extends StatelessWidget {
+  final String name;
+  final String status;
+
+  const AttendanceStatusOthers({
+    super.key,
+    required this.name,
+    required this.status,
+  });
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case '출석':
+        return colAttendance;
+      case '결석':
+        return colAbsence;
+      case '밥':
+        return colBob;
+      case '잠시':
+        return colFAM;
+      default:
+        return colAttendance;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userController = Get.find<UserController>();
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          name,
+          style: TextStyle(
+            fontFamily: 'Courier',
+            fontSize: 20.sp,
+            color: colTitle,
+            fontWeight: FontWeight.w200,
+          ),
+        ),
+        SizedBox(width: 10.w),
+        Container(
+          width: 100.w,
+          height: 45.h,
+          decoration: BoxDecoration(
+            color: colRadiusRec,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                status,
+                style: TextStyle(
+                  fontFamily: 'Courier',
+                  fontSize: 20.sp,
+                  color: colStateText,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+              SizedBox(width: 10.sp,),
+              Container(
+                width: 16.sp,
+                height: 16.sp,
+                decoration: BoxDecoration(
+                  color: getStatusColor(status),
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+              )
+            ],
+          )
+        )
+      ]
     );
   }
 }
